@@ -1,10 +1,10 @@
-define(['StatementCreator'], function(StatementCreator) {
+define(['StatementCreator'], function (StatementCreator) {
 
-    var App = function() {
+    var App = function () {
         var creator = new StatementCreator();
 
         creator.addProviderIdentity("facebook", "hgessner");
-        creator.addDeviceLanguage("de-DE");
+        creator.addDeviceDetails("de-DE", ["+49-172-2781000"]);
     };
 
     return App;

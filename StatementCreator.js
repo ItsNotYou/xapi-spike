@@ -1,10 +1,10 @@
-define(['ADL', 'activities', 'json!verbs.json'], function(ADL, activities, verbs) {
+define(['ADL', 'activities', 'json!verbs.json'], function (ADL, activities, verbs) {
 
-    var StatementCreator = function() {
+    var StatementCreator = function () {
         // Init xAPI wrapper
         var conf = {
             endpoint: "https://lrs.adlnet.gov/xAPI/",
-            auth : "Basic " + toBase64('hgessner:nexplorer'),
+            auth: "Basic " + toBase64('hgessner:nexplorer'),
             strictCallbacks: true
         };
         ADL.XAPIWrapper.changeConfig(conf);
@@ -15,17 +15,17 @@ define(['ADL', 'activities', 'json!verbs.json'], function(ADL, activities, verbs
 
     /**
      *
-     * @param provider "mail", "facebook" etc., must be known
-     * @param identity user name at the given provider
+     * @param {string} provider "mail", "facebook" etc., must be known
+     * @param {string} identity user name at the given provider
      */
-    StatementCreator.prototype.addProviderIdentity = function(provider, identity) {
+    StatementCreator.prototype.addProviderIdentity = function (provider, identity) {
         var stmt = new ADL.XAPIStatement(
             this._agent,
             verbs.loggedin,
             activities.service(provider, identity)
         );
 
-        ADL.XAPIWrapper.sendStatement(stmt, function(err, res, body) {
+        ADL.XAPIWrapper.sendStatement(stmt, function (err, res, body) {
             if (err) {
                 console.error(err);
                 return;
@@ -37,16 +37,22 @@ define(['ADL', 'activities', 'json!verbs.json'], function(ADL, activities, verbs
 
     /**
      *
-     * @param languageCode short form, e.g. "en-US" or "de-DE"
+     * @param {string} languageCode short form, e.g. "en-US" or "de-DE"
+     * @param {string[]} phoneNumbers device phone numbers
      */
-    StatementCreator.prototype.addDeviceLanguage = function(languageCode) {
+    StatementCreator.prototype.addDeviceDetails = function (languageCode, phoneNumbers) {
+        var extensions = {
+            languageCode: languageCode,
+            phoneNumbers: phoneNumbers
+        };
+
         var stmt = new ADL.XAPIStatement(
             this._agent,
             verbs.used,
-            activities.device(languageCode, "0c0299eb-42f6-4f1c-96a5-13201683c825")
+            activities.device("0c0299eb-42f6-4f1c-96a5-13201683c825", extensions)
         );
 
-        ADL.XAPIWrapper.sendStatement(stmt, function(err, res, body) {
+        ADL.XAPIWrapper.sendStatement(stmt, function (err, res, body) {
             if (err) {
                 console.error(err);
                 return;

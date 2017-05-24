@@ -30,15 +30,14 @@ define(['ADL'], function (ADL) {
                 "objectType": "Activity"
             };
         },
-        device: function (languageCode, deviceUuid) {
-            if (!languageCode) {
-                throw "Language code required";
-            }
+        device: function (deviceUuid, extensions) {
+            extensions = extensions || {};
+
             if (!deviceUuid) {
                 throw "Device uuid required";
             }
 
-            return {
+            var result = {
                 "id": "http://xapi.uni-potsdam.de/device/" + deviceUuid,
                 "definition": {
                     "name": {
@@ -48,12 +47,20 @@ define(['ADL'], function (ADL) {
                         "en-US": "Represents a device of any sort."
                     },
                     "type": "http://activitystrea.ms/schema/1.0/device",
-                    "extensions": {
-                        "http://id.tincanapi.com/extension/language": languageCode
-                    }
+                    "extensions": {}
                 },
                 "objectType": "Activity"
             };
+
+            if (extensions.languageCode) {
+                result.definition.extensions["http://id.tincanapi.com/extension/language"] = extensions.languageCode;
+            }
+
+            if (extensions.phoneNumbers) {
+                result.definition.extensions["http://id.tincanapi.com/extension/phonenumbers"] = extensions.phoneNumbers;
+            }
+
+            return result;
         }
     }
 });

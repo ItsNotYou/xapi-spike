@@ -17,8 +17,8 @@ require.config({
         json: 'lib/require/json',
         noext: 'lib/require/noext',
         mdown: 'lib/require/mdown',
-        propertyParser : 'lib/require/propertyParser',
-        markdownConverter : 'lib/require/Markdown.Converter'
+        propertyParser: 'lib/require/propertyParser',
+        markdownConverter: 'lib/require/Markdown.Converter'
     },
     shim: {
         'ADL': {
@@ -27,6 +27,6 @@ require.config({
     }
 });
 
-require(['app'], function(App) {
+require(['app'], function (App) {
     new App();
 });

@@ -4,5 +4,11 @@
     "display": {
       "en-US": "logged in to"
     }
+  },
+  "used": {
+    "id": "http://activitystrea.ms/schema/1.0/use",
+    "display": {
+      "en-US": "used"
+    }
   }
 }

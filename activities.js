@@ -9,8 +9,11 @@ define(['ADL'], function (ADL) {
             if (!serviceProviders[provider]) {
                 throw "Unsupported service provider";
             }
+            if (!identity) {
+                throw "Identity required";
+            }
 
-            var result = {
+            return {
                 "id": serviceProviders[provider],
                 "definition": {
                     "name": {
@@ -19,18 +22,38 @@ define(['ADL'], function (ADL) {
                     "description": {
                         "en-US": "Represents any form of hosted or consumable service that performs some kind of work or benefit for other entities. Examples of such objects include websites, businesses, etc."
                     },
-                    "type": "http://activitystrea.ms/schema/1.0/service"
+                    "type": "http://activitystrea.ms/schema/1.0/service",
+                    "extensions": {
+                        "http://id.tincanapi.com/extension/account": identity
+                    }
                 },
                 "objectType": "Activity"
             };
-
-            if (identity) {
-                result.definition.extensions = {
-                    "http://id.tincanapi.com/extension/account": identity
-                };
+        },
+        device: function (languageCode, deviceUuid) {
+            if (!languageCode) {
+                throw "Language code required";
+            }
+            if (!deviceUuid) {
+                throw "Device uuid required";
             }
 
-            return result;
+            return {
+                "id": "http://xapi.uni-potsdam.de/device/" + deviceUuid,
+                "definition": {
+                    "name": {
+                        "en-US": "device "
+                    },
+                    "description": {
+                        "en-US": "Represents a device of any sort."
+                    },
+                    "type": "http://activitystrea.ms/schema/1.0/device",
+                    "extensions": {
+                        "http://id.tincanapi.com/extension/language": languageCode
+                    }
+                },
+                "objectType": "Activity"
+            };
         }
     }
 });

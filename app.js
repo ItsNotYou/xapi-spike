@@ -4,6 +4,7 @@ define(['StatementCreator'], function(StatementCreator) {
         var creator = new StatementCreator();
 
         creator.addProviderIdentity("facebook", "hgessner");
+        creator.addDeviceLanguage("de-DE");
     };
 
     return App;

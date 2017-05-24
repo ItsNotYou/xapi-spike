@@ -10,5 +10,11 @@
     "display": {
       "en-US": "used"
     }
+  },
+  "wasat": {
+    "id": "http://activitystrea.ms/schema/1.0/at",
+    "display": {
+      "en-US": "was at"
+    }
   }
 }

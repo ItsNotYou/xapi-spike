@@ -62,5 +62,28 @@ define(['ADL', 'activities', 'json!verbs.json'], function (ADL, activities, verb
         });
     };
 
+    /**
+     *
+     * @param location current user location
+     * @param {number} location.latitude latitude
+     * @param {number} location.longitude longitude
+     */
+    StatementCreator.prototype.addUserLocation = function (location) {
+        var stmt = new ADL.XAPIStatement(
+            this._agent,
+            verbs.wasat,
+            activities.place(location)
+        );
+
+        ADL.XAPIWrapper.sendStatement(stmt, function (err, res, body) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+
+            console.log("[" + body.id + "]: " + res.status + " - " + res.statusText);
+        });
+    };
+
     return StatementCreator;
 });

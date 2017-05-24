@@ -41,7 +41,7 @@ define(['ADL'], function (ADL) {
                 "id": "http://xapi.uni-potsdam.de/device/" + deviceUuid,
                 "definition": {
                     "name": {
-                        "en-US": "device "
+                        "en-US": "device"
                     },
                     "description": {
                         "en-US": "Represents a device of any sort."
@@ -61,6 +61,34 @@ define(['ADL'], function (ADL) {
             }
 
             return result;
+        },
+        place: function (location) {
+            if (!location || !location.latitude || !location.longitude) {
+                throw "Location with latitude and longitude required";
+            }
+
+            return {
+                "id": "http://xapi.uni-potsdam.de/place/" + ADL.ruuid(),
+                "definition": {
+                    "name": {
+                        "en-US": "place"
+                    },
+                    "description": {
+                        "en-US": "Represents a physical location. Locations can be represented using geographic coordinates, a physical address, a free-form location name, or any combination of these. Objects of this type MAY contain the additional properties specified in Section 3.5."
+                    },
+                    "type": "http://activitystrea.ms/schema/1.0/place",
+                    "extensions": {
+                        "http://id.tincanapi.com/extension/geojson": {
+                            "type": "Feature",
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [location.latitude, location.longitude]
+                            }
+                        }
+                    }
+                },
+                "objectType": "Activity"
+            };
         }
     }
 });
